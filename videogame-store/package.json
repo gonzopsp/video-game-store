@@ -1,0 +1,64 @@
+{
+  "name": "videogame-store",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+  
+  "serve": "vite preview",
+    "start": "vite"
+  },
+
+
+  "dependencies": {
+    "@coreui/chartjs": "^4.1.0",
+    "@coreui/coreui": "^5.3.1",
+    "@coreui/icons": "^3.0.1",
+    "@coreui/icons-react": "^2.3.0",
+    "@coreui/react": "^5.7.0",
+    "@coreui/react-chartjs": "^3.0.0",
+    "@coreui/utils": "^2.0.2",
+    "@fortawesome/free-solid-svg-icons": "^6.7.2",
+    "@fortawesome/react-fontawesome": "^0.2.2",
+    "@popperjs/core": "^2.11.8",
+    "@reduxjs/toolkit": "^2.8.2",
+    "axios": "^1.10.0",
+    "bootstrap": "^5.3.7",
+    "chart.js": "^4.4.7",
+    "classnames": "^2.5.1",
+    "core-js": "^3.40.0",
+    "prop-types": "^15.8.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-redux": "^9.2.0",
+    "react-router-dom": "^7.6.3",
+    "redux": "^5.0.1",
+    "redux-thunk": "^3.1.0",
+    "simplebar-react": "^3.3.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.29.0",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "@vitejs/plugin-react": "^4.5.2",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^9.29.0",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-prettier": "^5.2.3",
+    "eslint-plugin-react": "^7.37.4",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "globals": "^16.2.0",
+    "postcss": "^8.5.2",
+    "prettier": "3.5.1",
+    "sass": "^1.85.0",
+    "typescript": "~5.8.3",
+    "typescript-eslint": "^8.34.1",
+    "vite": "^7.0.0"
+  }
+}
+
