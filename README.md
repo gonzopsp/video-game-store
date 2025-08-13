@@ -1,6 +1,7 @@
 # Video Game Store 🎮
 
 Aplicación web para la gestión y venta de videojuegos, desarrollada con el stack **PERN** (PostgreSQL, Express, React, Node.js).
+(en desarrollo)
 
 ## 🚀 Características
 - Gestión de catálogo de videojuegos (crear, editar, eliminar).
