@@ -9,7 +9,7 @@ Aplicación web para la gestión y venta de videojuegos, desarrollada con el sta
 - Sistema de autenticación de usuarios.
 - API REST para la comunicación entre cliente y servidor.
 
-## 🛠 Tecnologías utilizadas
+##  Tecnologías utilizadas
 - **Frontend:** React, CSS Modules
 - **Backend:** Node.js, Express
 - **Base de datos:** PostgreSQL
