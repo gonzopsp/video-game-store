@@ -6,7 +6,9 @@ import cors from 'cors'
 
 export const server = express()
 server.use(express.json())
+
 server.use(cors())
+
 server.use('/api/', router)
 
 

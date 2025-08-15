@@ -4,6 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { CButton, CForm, CFormInput, CCard, CCardBody, CCardTitle } from '@coreui/react';
 import axios from 'axios';
 
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000'
+
+
 type RegisterForm = {
   email: string;
   name: string;
@@ -38,7 +41,7 @@ const Register: React.FC<Props> = ({ setIsLoggedIn }) => {
     setError(null);
     
     try {
-      const res = await axios.post('http://localhost:4000/api/registro', form);
+      const res = await axios.post(`${API_BASE}/api/registro`, form);
       console.log('User registered:', res.data);
 
      

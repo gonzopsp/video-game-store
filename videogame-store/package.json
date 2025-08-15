@@ -8,12 +8,9 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-  
-  "serve": "vite preview",
+    "serve": "vite preview",
     "start": "vite"
   },
-
-
   "dependencies": {
     "@coreui/chartjs": "^4.1.0",
     "@coreui/coreui": "^5.3.1",
@@ -31,6 +28,7 @@
     "chart.js": "^4.4.7",
     "classnames": "^2.5.1",
     "core-js": "^3.40.0",
+    "dotenv": "^17.2.1",
     "prop-types": "^15.8.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
@@ -42,6 +40,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.29.0",
+    "@types/node": "^24.2.0",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react": "^4.5.2",
@@ -61,4 +60,3 @@
     "vite": "^7.0.0"
   }
 }
-

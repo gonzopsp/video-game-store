@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import type { users } from "../types/types";
 import axios from "axios";
 
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000'
 
 
 export function useUsers() {
@@ -12,7 +13,7 @@ export function useUsers() {
 
   const token = localStorage.getItem("token"); 
   const api = axios.create({
-    baseURL: "http://localhost:4000/api/users",
+    baseURL: `${API_BASE}/api/users`,
     headers: {
       Authorization: `Bearer ${token}`,
     },
@@ -41,7 +42,7 @@ export function useUsers() {
     }
   };
 
-  // ✏️ Update user
+  
   const updateUser = async (email: string, updatedUser: Partial<users>) => {
     try {
       const res = await api.put(`/${email}`, updatedUser);

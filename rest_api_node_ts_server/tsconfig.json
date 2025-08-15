@@ -5,10 +5,11 @@
         "lib": ["esnext","dom"],
        "target": "ES6",
         "module": "commonjs",
-        
+        "typeRoots": ["./node_modules/@types", "./types"],
         "strict": false,
         "sourceMap": true,
         "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
         "declaration": true
     },
     "include": ["src/**/*.ts", "src/index.ts"]

@@ -28,15 +28,26 @@ const GameCard: React.FC<GameCardProps> = ({
   onBuy,
 }) => {
   return (
-    <CCard style={{ width: '18rem', margin: '1rem' }}>
-      <CCardImage src={image} alt={name} />
-      <CCardBody>
+    <CCard style={{ width: '18rem', margin: '1rem', 
+      borderRadius:'12px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+
+     }}>
+
+      <CCardImage src={image} alt={name} style={{objectFit:'cover', height:'180px'}}/>
+
+      <CCardBody style={{textAlign: 'center'}}>
         <CCardTitle>{name}</CCardTitle>
-        <CCardText>
-          Genre: {genre} <br />
-          Price: ${price} <br />
-          Stock: {stock} available <br />
-          Description: {description}
+
+        <CCardText style={{marginBottom:'1rem', lineHeight:'1.4'}}>
+          <strong>Genre:</strong> {genre} <br />
+          <strong>Price:</strong> ${price} <br />
+          <strong>Stock:</strong> {stock} available <br />
+          <strong>Description:</strong>  <br />
+        
+        <span style={{display: 'inline=block', marginTop:'0.5rem'}}>
+            {description}
+        </span>
+
         </CCardText>
         <CButton color="primary" onClick={onBuy} disabled={stock <= 0}>
           {stock > 0 ? 'Buy' : 'Out of Stock'}

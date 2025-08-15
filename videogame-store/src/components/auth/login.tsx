@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router';
 import { CButton, CForm, CFormInput, CCard, CCardBody, CCardTitle } from '@coreui/react';
 import axios from 'axios';
 
-
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000'
 
 type LoginForm = {
   email: string,
@@ -28,7 +28,7 @@ const Login: React.FC<Props> = ({ setIsLoggedIn }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:4000/api/login', form);
+      const res = await axios.post(`${API_BASE}/api/login`, form);
       console.log('Logged in!', res.data);
       setIsLoggedIn(true);
     //saving user and token

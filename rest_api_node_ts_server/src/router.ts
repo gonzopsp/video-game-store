@@ -1,82 +1,108 @@
-import { Router } from "express";
-import { Videogame } from "./models/videogame";
+import { Router, Request, Response, NextFunction } from 'express';
+import { Videogame } from './models/videogame';
+import { User } from './models/users';
 import { login, register } from './controllers/auth.controller';
-import { authenticate } from "./middleware/auth.middleware";
-import { User } from "./models/users";
-const router = Router()
+import { authenticate } from './middleware/auth.middleware';
+import { authorizeRoles } from './middleware/role.middleware';
+import { create, list, update, remove } from './controllers/videogame.controller';
+import { uploadImage } from './middleware/uploadImage';
 
-//Routing
+const router = Router();
 
-//public
-// VIDEOGAME
-router.get('/videogame', async (req, res) => {
-    try {
-        const videogames = await Videogame.findAll();  //fetch all videogames from db
-        res.json(videogames); //sends data to json
-    } catch (error) {
-        console.error('Error fetching videogames:', error);
-        res.status(500).json({ error: 'Internal server error' });
-    }
-});
-
-
-
-//Authentication
-
+// Rutas públicas
 router.post('/login', login);
 router.post('/registro', register);
 
-
-//protected routes
-//User management 
-//admin only
-router.get("/users", authenticate, async(req, res) => {
-  const user = (req as any).user;
-  if (user.role !== 4) {
-    res.status(403).json({ message: 'Access denied: Admins only' });
-    return
-  }
+router.get('/videogame', async (req: Request, res: Response) => {
   try {
-    const users = await User.findAll();  
+    const videogames = await Videogame.findAll();
+    res.json(videogames);
+  } catch (error) {
+    console.error('Error fetching videogames:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// Rutas protegidas para videojuegos - solo vendedores (role 1) y admins (role 4)
+router.post('/videogame', authenticate, authorizeRoles(1, 4), uploadImage.single('image'), create);
+router.put('/videogame/:id', authenticate, authorizeRoles(1, 4), uploadImage.single('image'), update);
+router.delete('/videogame/:id', authenticate, authorizeRoles(1, 4), remove);
+
+// Rutas para usuarios
+
+// Obtener todos los usuarios (solo admins)
+router.get('/users', authenticate, authorizeRoles(4), async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const users = await User.findAll();
     res.json(users);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal server error" });
+    next(error);
   }
 });
 
-// user or admin: get user by ID
-router.get("/users/:id", authenticate, (req, res) => {
-  const user = (req as any).user;
-  const { id } = req.params;
+// Obtener perfil propio o admin puede obtener cualquier usuario
+router.get('/users/:id', authenticate, async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const loggedUser = (req as any).user;
+    const { id } = req.params;
 
-  // allow if admin or the user is accessing their own data
-  if (user.role !== 4 && user.id !== id) {
-    res.status(403).json({ message: 'Access denied' });
+    if (loggedUser.role !== 4 && loggedUser.id !== id) {
+      res.status(403).json({ message: 'Access denied' });
+      return;
+    }
+
+    const userData = await User.findByPk(id);
+    if (!userData) {
+      res.status(404).json({ message: 'User not found' });
+      return;
+    }
+
+    res.json(userData);
+  } catch (error) {
+    next(error);
   }
-
-  res.send(`Get user ${id}`);
 });
-// user only: update own data
-router.put("/users/:id", authenticate, (req, res) => {
-  const user = (req as any).user;
-  const { id } = req.params;
 
-  if (user.id !== id) {
-    res.status(403).json({ message: 'You can only update your own account' });
+// Actualizar perfil propio (o admin puede actualizar cualquiera)
+router.put('/users/:id', authenticate, async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const loggedUser = (req as any).user;
+    const { id } = req.params;
+
+    if (loggedUser.role !== 4 && loggedUser.id !== id) {
+      res.status(403).json({ message: 'Access denied' });
+      return;
+    }
+
+    const userToUpdate = await User.findByPk(id);
+    if (!userToUpdate) {
+      res.status(404).json({ message: 'User not found' });
+      return;
+    }
+
+    await userToUpdate.update(req.body);
+    res.json(userToUpdate);
+  } catch (error) {
+    next(error);
   }
-
-  res.send(`Update user ${id}`);
 });
 
- 
+// Opcional: eliminar usuario (solo admin)
+router.delete('/users/:id', authenticate, authorizeRoles(4), async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { id } = req.params;
 
+    const userToDelete = await User.findByPk(id);
+    if (!userToDelete) {
+      res.status(404).json({ message: 'User not found' });
+      return;
+    }
 
-
-// default test routes
-//router.post('/', (req,res) => res.send("Desde POST"));
-//router.put('/', (req,res) => res.send("Desde PUT"));
-//router.patch('/', (req,res) => res.send("Desde PATCH"));
-//router.delete('/', (req,res) => res.send("Desde DELETE"));
+    await userToDelete.destroy();
+    res.json({ message: 'User deleted successfully' });
+  } catch (error) {
+    next(error);
+  }
+});
 
 export default router;

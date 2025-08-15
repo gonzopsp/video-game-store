@@ -4,6 +4,8 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { fetchVideogameData } from '../api';
 import type { videogame } from '../types/types';
 
+
+
 type StoreState = {
   videogamesSupply: videogame[];
 };
