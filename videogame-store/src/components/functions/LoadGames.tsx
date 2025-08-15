@@ -1,21 +1,26 @@
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { loadGames } from '../../hooks/videogameSlice'; // Adjust the import path as
-import type { AppDispatch } from '../store';
+import { useDispatch, useSelector } from 'react-redux';
+import { loadGames } from '../../hooks/videogameSlice';
+import type { AppDispatch, RootState } from '../store';
+
 const LoadGames: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
+    const status = useSelector((state: RootState) => state.videogame.status);
+    const error = useSelector((state: RootState) => state.videogame.error);
 
     useEffect(() => {
-        const fetchGames = async () => {
-            console.log('Cargando juegos...');
-            await dispatch(loadGames()); // Wait for the loadGames action to complete
-            console.log('Juegos cargados con éxito');
-        };
+        dispatch(loadGames());
+    }, [dispatch]);
 
-        fetchGames(); // Call the async function
-    }, [dispatch]); // Add dispatch to the dependency array
+    if (status === 'loading') {
+        return <div style={{ textAlign: 'center', marginTop: '2rem' }}>Cargando juegos...</div>;
+    }
 
-    return null; // This component does not render anything
+    if (status === 'failed') {
+        return <div style={{ color: 'red', textAlign: 'center', marginTop: '2rem' }}>Error: {error}</div>;
+    }
+
+    return null; // Cuando está succeeded o idle no renderiza nada
 };
 
 export default LoadGames;

@@ -1,5 +1,6 @@
 import express from 'express'
 import router from "./router"
+import path from 'path'
 import db from "./config/db"
 import cors from 'cors'
 
@@ -10,7 +11,7 @@ server.use(express.json())
 server.use(cors())
 
 server.use('/api/', router)
-
+server.use('/images', express.static(path.join(__dirname, 'data/img/videogames')));
 
 //conectar a la db
 

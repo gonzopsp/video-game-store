@@ -7,21 +7,21 @@ import { authorizeRoles } from './middleware/role.middleware';
 import { create, list, update, remove } from './controllers/videogame.controller';
 import { uploadImage } from './middleware/uploadImage';
 
+
+
 const router = Router();
 
 // Rutas públicas
 router.post('/login', login);
 router.post('/registro', register);
 
-router.get('/videogame', async (req: Request, res: Response) => {
-  try {
-    const videogames = await Videogame.findAll();
-    res.json(videogames);
-  } catch (error) {
-    console.error('Error fetching videogames:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
+
+// Games
+router.get('/videogame', list);
+
+
+
+
 
 // Rutas protegidas para videojuegos - solo vendedores (role 1) y admins (role 4)
 router.post('/videogame', authenticate, authorizeRoles(1, 4), uploadImage.single('image'), create);
